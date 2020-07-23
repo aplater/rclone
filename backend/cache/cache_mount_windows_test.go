@@ -41,7 +41,7 @@ func (r *run) mountFs(t *testing.T, f fs.Fs) {
 	options := []string{
 		"-o", "fsname=" + device,
 		"-o", "subtype=rclone",
-		"-o", fmt.Sprintf("max_readahead=%d", mountlib.MaxReadAhead),
+		"-o", fmt.Sprintf("max_readahead=%d", mountlib.Opt.MaxReadAhead),
 		"-o", "uid=-1",
 		"-o", "gid=-1",
 		"-o", "allow_other",
@@ -54,7 +54,7 @@ func (r *run) mountFs(t *testing.T, f fs.Fs) {
 	}
 
 	VFS := vfs.New(f, &vfsflags.Opt)
-	fsys := cmount.NewFS(VFS)
+	fsys := cmount.NewFS(VFS, &mountlib.Opt)
 	host := fuse.NewFileSystemHost(fsys)
 
 	// Serve the mount point in the background returning error to errChan
